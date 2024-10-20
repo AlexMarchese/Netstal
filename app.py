@@ -3,6 +3,19 @@ import pandas as pd
 import random
 from datetime import datetime, timedelta
 import plotly.graph_objects as go
+import time
+
+
+
+
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
 
 # Sample machine data
 machines = [
@@ -59,9 +72,12 @@ machine_statuses = [
 # st.plotly_chart(fig)
 
 # Create two columns: left for the chart, right for other content
-col1, col2 = st.columns([1, 2])
+col1, col2 = st.columns([0.5, 0.5], gap="large", vertical_alignment="center")
 
 with col1:
+    
+    st.subheader("Machines Overview")
+
     # Sample data for the pie chart
     labels = ['ELH 4200 I', 'ELH 4200 II', 'ELE 1750 I', 'ELE 1750 II']
     values = [4500, 2500, 1050, 1500]
@@ -93,95 +109,103 @@ with col2:
  # # Display machine information
 st.subheader("Machines Overview")
 
-# Sample data for the line charts
-data = {
-    "time": [datetime.now() - timedelta(hours=i) for i in range(24)],
-    "Pump A": [random.uniform(-0.5, 0.5) for _ in range(24)],
-    "Pump B": [random.uniform(-0.5, 0.5) for _ in range(24)],
-    "Pump C": [random.uniform(-0.5, 0.5) for _ in range(24)],
-}
+# Create a placeholder for the plot
+plot_placeholder = st.empty()
 
-df = pd.DataFrame(data)
-df['time'] = pd.to_datetime(df['time'])
+while True:
 
-# Create a figure for the line charts using Plotly
-fig = go.Figure()
+    # Create a figure for the line charts using Plotly
+    fig = go.Figure()
 
-# Adding traces for each pump (similar to the example chart in the image)
-fig.add_trace(go.Scatter(x=df['time'], y=df['Pump A'], mode='lines', name='Pump A', line=dict(color='blue')))
-fig.add_trace(go.Scatter(x=df['time'], y=df['Pump B'], mode='lines', name='Pump B', line=dict(color='orange')))
-fig.add_trace(go.Scatter(x=df['time'], y=df['Pump C'], mode='lines', name='Pump C', line=dict(color='green')))
+    # Sample data for the line charts
+    data = {
+        "time": [datetime.now() - timedelta(hours=i) for i in range(24)],
+        "Pump A": [random.uniform(-0.5, 0.5) for _ in range(24)],
+        "Pump B": [random.uniform(-0.5, 0.5) for _ in range(24)],
+        "Pump C": [random.uniform(-0.5, 0.5) for _ in range(24)],
+    }
 
-# Customizing the layout to be similar to the provided image
-fig.update_layout(
-    title="Pump Monitoring (Past 24 Hours)",
-    xaxis_title="Time",
-    yaxis_title="Exerted pressure (in % of avg)",
-    legend_title="Pumps",
-    xaxis=dict(tickformat='%H:%M'),  # Format to show only hours and minutes
-    height=400,
-    margin=dict(l=40, r=40, t=50, b=40)
-)
+    df = pd.DataFrame(data)
+    df['time'] = pd.to_datetime(df['time'])
 
-# Display the figure in Streamlit
-st.plotly_chart(fig, use_container_width=True)
-# machine_df = pd.DataFrame(machines)
-# st.dataframe(machine_df)
-
-# # Predicted failure chart
-# st.subheader("Failure Predictions")
-# prediction_data = generate_prediction_data()
-# prediction_df = pd.DataFrame(prediction_data)
-# st.line_chart(prediction_df.set_index('date'), height=250)
-# st.write(prediction_df)
-
-
-# # Dashboard Page
-# if page == "Dashboard":
-#     st.title("Dashboard Overview")
     
-#     # Overview of Machine Statuses
-#     st.subheader("Overall Machine States")
-#     machine_df = pd.DataFrame(machines)
-#     st.dataframe(machine_df)
 
-#     # Predicted failure chart
-#     st.subheader("Failure Predictions")
-#     prediction_data = generate_prediction_data()
-#     prediction_df = pd.DataFrame(prediction_data)
-#     st.line_chart(prediction_df.set_index('date'), height=250)
-#     st.write(prediction_df)
+    # Adding traces for each pump (similar to the example chart in the image)
+    fig.add_trace(go.Scatter(x=df['time'], y=df['Pump A'], mode='lines', name='Pump A', line=dict(color='blue')))
+    fig.add_trace(go.Scatter(x=df['time'], y=df['Pump B'], mode='lines', name='Pump B', line=dict(color='orange')))
+    fig.add_trace(go.Scatter(x=df['time'], y=df['Pump C'], mode='lines', name='Pump C', line=dict(color='green')))
 
-# # Machines Page
-# elif page == "Machines":
-#     st.title("Machines Monitoring")
-    
-#     # Display machine information
-#     st.subheader("Machines Overview")
-#     for machine in machines:
-#         st.write(f"Machine: {machine['name']}")
-#         st.write(f"Status: {machine['status']}")
-#         st.write(f"Temperature: {machine['temperature']}°F")
-#         st.write(f"Vibration: {machine['vibration']}g")
-#         st.write("---")
+    # Customizing the layout to be similar to the provided image
+    fig.update_layout(
+        title="Pump Monitoring (Past 24 Hours)",
+        xaxis_title="Time",
+        yaxis_title="Exerted pressure (in % of avg)",
+        legend_title="Pumps",
+        xaxis=dict(tickformat='%H:%M'),  # Format to show only hours and minutes
+        height=400,
+        margin=dict(l=40, r=40, t=50, b=40)
+    )
 
-# # Components Page
-# elif page == "Components":
-#     st.title("Components Details")
-    
-#     # Placeholder for components information (example)
-#     components = [{"name": "Valve A", "status": "Operational"}, {"name": "Valve B", "status": "Maintenance Needed"}]
-#     st.subheader("Component Status")
-#     for component in components:
-#         st.write(f"Component: {component['name']} | Status: {component['status']}")
-#         st.write("---")
+    # Display the figure in Streamlit
+    plot_placeholder.plotly_chart(fig, use_container_width=True)
+    time.sleep(1)
+    # machine_df = pd.DataFrame(machines)
+    # st.dataframe(machine_df)
 
-# # Models Page
-# elif page == "Models":
-#     st.title("Machine Learning Models")
-    
-#     # Example content for the models page
-#     st.subheader("Predictive Models in Use")
-#     models = ["Anomaly Detection Model v1.2", "Failure Prediction Model v2.5", "Temperature Sensor Model v1.1"]
-#     for model in models:
-#         st.write(f"Model: {model}")
+    # # Predicted failure chart
+    # st.subheader("Failure Predictions")
+    # prediction_data = generate_prediction_data()
+    # prediction_df = pd.DataFrame(prediction_data)
+    # st.line_chart(prediction_df.set_index('date'), height=250)
+    # st.write(prediction_df)
+
+
+    # # Dashboard Page
+    # if page == "Dashboard":
+    #     st.title("Dashboard Overview")
+        
+    #     # Overview of Machine Statuses
+    #     st.subheader("Overall Machine States")
+    #     machine_df = pd.DataFrame(machines)
+    #     st.dataframe(machine_df)
+
+    #     # Predicted failure chart
+    #     st.subheader("Failure Predictions")
+    #     prediction_data = generate_prediction_data()
+    #     prediction_df = pd.DataFrame(prediction_data)
+    #     st.line_chart(prediction_df.set_index('date'), height=250)
+    #     st.write(prediction_df)
+
+    # # Machines Page
+    # elif page == "Machines":
+    #     st.title("Machines Monitoring")
+        
+    #     # Display machine information
+    #     st.subheader("Machines Overview")
+    #     for machine in machines:
+    #         st.write(f"Machine: {machine['name']}")
+    #         st.write(f"Status: {machine['status']}")
+    #         st.write(f"Temperature: {machine['temperature']}°F")
+    #         st.write(f"Vibration: {machine['vibration']}g")
+    #         st.write("---")
+
+    # # Components Page
+    # elif page == "Components":
+    #     st.title("Components Details")
+        
+    #     # Placeholder for components information (example)
+    #     components = [{"name": "Valve A", "status": "Operational"}, {"name": "Valve B", "status": "Maintenance Needed"}]
+    #     st.subheader("Component Status")
+    #     for component in components:
+    #         st.write(f"Component: {component['name']} | Status: {component['status']}")
+    #         st.write("---")
+
+    # # Models Page
+    # elif page == "Models":
+    #     st.title("Machine Learning Models")
+        
+    #     # Example content for the models page
+    #     st.subheader("Predictive Models in Use")
+    #     models = ["Anomaly Detection Model v1.2", "Failure Prediction Model v2.5", "Temperature Sensor Model v1.1"]
+    #     for model in models:
+    #         st.write(f"Model: {model}")

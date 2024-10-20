@@ -1,6 +1,18 @@
 import streamlit as st
 import pandas as pd
 
+
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
+st.sidebar.image("images/logo_netstal.webp", use_column_width=True)
+
 # Sensor-based predictions components
 sensor_based_components = [
     {"name": "Druckaufnehmer (Pressure sensor)", "usage": "78%"},
