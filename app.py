@@ -26,10 +26,10 @@ st.sidebar.image("images/logo_netstal.webp", use_column_width=True)
 # page = st.sidebar.selectbox("Go to", ["Dashboard", "Machines", "Components", "Models"])
 
 
-st.page_link("app.py", label="Home", icon="🏠")
-st.page_link("pages/machines.py", label="Page 1", icon="1️⃣")
-st.page_link("pages/components.py", label="Page 2", icon="2️⃣", disabled=True)
-st.page_link("http://www.google.com", label="Google", icon="🌎")
+# st.page_link("app.py", label="Home", icon="🏠")
+# st.page_link("pages/machines.py", label="Page 1", icon="1️⃣")
+# st.page_link("pages/components.py", label="Page 2", icon="2️⃣", disabled=True)
+# st.page_link("http://www.google.com", label="Google", icon="🌎")
 
 
 import plotly.graph_objects as go
