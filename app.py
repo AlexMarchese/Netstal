@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import random
 from datetime import datetime, timedelta
+import plotly.graph_objects as go
 
 # Sample machine data
 machines = [
@@ -32,7 +33,7 @@ st.sidebar.image("images/logo_netstal.webp", use_column_width=True)
 # st.page_link("http://www.google.com", label="Google", icon="🌎")
 
 
-import plotly.graph_objects as go
+
 
 
 
