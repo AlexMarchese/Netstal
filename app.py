@@ -6,7 +6,8 @@ import plotly.graph_objects as go
 import time
 
 
-
+# Tab Title
+st.set_page_config(page_title="NETSERVE", page_icon=":gear:")
 
 hide_st_style = """
             <style>
@@ -16,6 +17,7 @@ hide_st_style = """
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
+
 
 # Sample machine data
 machines = [
@@ -76,7 +78,9 @@ col1, col2 = st.columns([0.5, 0.5], gap="large", vertical_alignment="center")
 
 with col1:
     
-    st.subheader("Machines Overview")
+    # st.subheader("Running time")
+
+    # st.write("**Running Time**")
 
     # Sample data for the pie chart
     labels = ['ELH 4200 I', 'ELH 4200 II', 'ELE 1750 I', 'ELE 1750 II']
@@ -84,9 +88,21 @@ with col1:
 
     # Create a donut chart using Plotly
     fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=.4)])
+    fig.update_layout(
+        title={
+            'text': "Running time",
+            'x': 0,  # Center the title
+            'y': 0.8,
+            'xanchor': 'left',
+            'yanchor': 'top',
+            'font': {
+                'size': 24  # Increase the font size
+            }
+        }
+    )
 
     # Add a title to the chart
-    fig.update_layout(title_text="Running time")
+    # fig.update_layout(title_text="Running time")
 
     # Display the chart in the Streamlit app
     st.plotly_chart(fig, use_container_width=True)
